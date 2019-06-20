@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {NavController, AlertController, ToastController, MenuController} from "ionic-angular";
 import {HomePage} from "../home/home";
 import {RegisterPage} from "../register/register";
+import {AuthProvider} from "../../providers/auth/auth";
 
 @Component({
   selector: 'page-login',
@@ -9,8 +10,22 @@ import {RegisterPage} from "../register/register";
 })
 export class LoginPage {
 
-  constructor(public nav: NavController, public forgotCtrl: AlertController, public menu: MenuController, public toastCtrl: ToastController) {
+  constructor(
+    public nav: NavController,
+    public forgotCtrl: AlertController,
+    public menu: MenuController,
+    public toastCtrl: ToastController,
+    private auth: AuthProvider
+  ) {
     this.menu.swipeEnable(false);
+  }
+
+  googleLogin(): void {
+    this.auth.googleLogin()
+  }
+
+  facebookLogin() {
+    this.auth.facebookLogin()
   }
 
   // go to register page
