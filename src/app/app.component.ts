@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { Platform, Nav } from "ionic-angular";
+import {Platform, Nav, Events} from "ionic-angular";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -10,6 +10,7 @@ import { LoginPage } from "../pages/login/login";
 import { LocalWeatherPage } from "../pages/local-weather/local-weather";
 import * as firebase from 'firebase/app';
 import {config} from '../configs/firebase-config';
+import {UserStore} from "../_stores/user.store";
 
 export interface MenuItem {
     title: string;
@@ -32,7 +33,9 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public keyboard: Keyboard
+    public keyboard: Keyboard,
+    public userStore: UserStore,
+    public events: Events
   ) {
     this.initializeApp();
 
@@ -44,6 +47,16 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.events.subscribe("unauthorized:requestError", () => {
+        this.nav.setRoot(LoginPage);
+      })
+      if (localStorage.getItem('jwt')) {
+        this.userStore.getUserMe()
+          .then(() => {
+            this.nav.setRoot(HomePage);
+          })
+          .catch(err => console.log(err))
+      }
       // Okay, so the platform is ready and our plugins are available.
 
       //*** Control Splash Screen
@@ -65,8 +78,6 @@ export class MyApp {
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
 

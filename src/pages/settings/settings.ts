@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {NavController} from "ionic-angular";
 import {LoginPage} from "../login/login";
+import {UserModel} from "../../_models/user.model";
 
 
 @Component({
@@ -9,11 +10,20 @@ import {LoginPage} from "../login/login";
 })
 export class SettingsPage {
 
-  constructor(public nav: NavController) {
+  public user: UserModel = new UserModel();
+
+  constructor(
+    public nav: NavController
+  ) {
+    this.user.role = 'worker';
   }
 
   // logout
   logout() {
     this.nav.setRoot(LoginPage);
+  }
+
+  goToWorkerProfile() {
+    this.nav.push('WorkerProfilePage')
   }
 }

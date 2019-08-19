@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>worker-profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-item-group>
+    <ion-item>
+      <ion-label>Выберите профессию из списка или добавьте новую</ion-label>
+      <ion-select (ionChange)="changeProfessional()" [(ngModel)]="profession" cancelText="Cancel" okText="OK">
+        <ion-option value="addNew">Добавить новую</ion-option>
+        <ion-option *ngFor="let prof of globalStore.professions" value="prof.id">{{prof.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Введите профессию"></ion-input>
+      <button ion-button>Сохранить</button>
+    </ion-item>
+    <ion-item *ngIf="specialization !== 'addNew'">
+      <ion-label>Выберите специализацию из списка или добавьте новую</ion-label>
+      <ion-select (ionChange)="changeSpecialization()" [(ngModel)]="specialization" cancelText="Cancel" okText="OK">
+        <ion-option value="addNew">Добавить новую</ion-option>
+        <ion-option value="en-GB">Адвокат</ion-option>
+        <ion-option value="en-GB">Стоматолог</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="specialization === 'addNew'">
+      <ion-label>Введите новую специализацию</ion-label>
+      <ion-input placeholder="Ввод"></ion-input>
+    </ion-item>
+    <ion-item-divider color="secondary" class="bold">Отметьте услуги которые Вы предоставляете или добавьте новые</ion-item-divider>
+    <ion-list>
+      <ion-item>
+        <button ion-button (click)="addService()"></button>
+        <ion-checkbox checked="true">Мужская стрижка</ion-checkbox>
+        <ion-checkbox checked="false">Женская стрижка</ion-checkbox>
+        <ion-checkbox checked="false">Покраска</ion-checkbox>
+        <ion-checkbox checked="true">Детская стрижка</ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </ion-item-group>
+</ion-content>

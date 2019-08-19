@@ -1,14 +1,17 @@
 import {Component} from "@angular/core";
 import {NavController, AlertController, ToastController, MenuController} from "ionic-angular";
-import {HomePage} from "../home/home";
 import {RegisterPage} from "../register/register";
 import {AuthProvider} from "../../providers/auth/auth";
+import {UserModel} from "../../_models/user.model";
+import {HomePage} from "../home/home";
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
 })
 export class LoginPage {
+
+  public user: UserModel = new UserModel();
 
   constructor(
     public nav: NavController,
@@ -35,7 +38,7 @@ export class LoginPage {
 
   // login and go to home page
   login() {
-    this.nav.setRoot(HomePage);
+    this.auth.login(this.user, this.nav);
   }
 
   forgotPass() {

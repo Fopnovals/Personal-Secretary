@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {IonicApp, IonicModule} from "ionic-angular";
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {IonicStorageModule} from '@ionic/storage';
 
 import {StatusBar} from '@ionic-native/status-bar';
@@ -27,13 +27,9 @@ import {LocalWeatherPage} from "../pages/local-weather/local-weather";
 import { AuthProvider } from '../providers/auth/auth';
 import {GooglePlus} from "@ionic-native/google-plus";
 import {Facebook} from "@ionic-native/facebook";
-
-// import services
-// end import services
-// end import services
-
-// import pages
-// end import pages
+import {TokenInterceptor} from "../providers/token.interceptor";
+import {UserStore} from "../_stores/user.store";
+import {GlobalStore} from "../_stores/global.store";
 
 @NgModule({
   declarations: [
@@ -85,7 +81,10 @@ import {Facebook} from "@ionic-native/facebook";
     WeatherProvider,
     AuthProvider,
     GooglePlus,
-    Facebook
+    UserStore,
+    GlobalStore,
+    Facebook,
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
   ]
 })
 
